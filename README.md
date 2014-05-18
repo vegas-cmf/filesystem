@@ -66,14 +66,14 @@ After you install the Fake-S3 server:
 
 Setup wildcard. Follow the instruction: [https://help.ubuntu.com/community/Dnsmasq](https://help.ubuntu.com/community/Dnsmasq)
 
-Add the following line into /etc/hosts
+Add the following line into **/etc/hosts**
 
 ```
 #!shell
 127.0.0.1       s3.amazonaws.com
 ```
 
-Add the following line
+Add the following line into **/etc/dnsmasq.conf** file:
 
 ```
 #!shell
