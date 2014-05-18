@@ -20,17 +20,22 @@ sudo vim /etc/vsftpd.conf
 
 Find and setup the following lines:
 
-    * **anonymous_enable=YES**
-    * **write_enable=YES**
-    * **local_enable=YES**
-    * **ftpd_banner=Welcome to Vegas Ftp Test Server**
+```
+#!shell
+anonymous_enable=YES
+write_enable=YES
+local_enable=YES
+ftpd_banner=Welcome to Vegas Ftp Test Server
+```
+
+Restart FTP server
 
 ```
 #!shell
 sudo service vsftpd restart
 ```
 
-5. Now we should create an example user
+Now we should create an example user
 
 ```
 #!shell
@@ -43,6 +48,14 @@ sudo passwd ftp-user
 #(enter the password: test1234)
 touch /home/ftp-user/hello.txt
 echo "Hello Vegas" > /home/ftp-user/hello.txt
+```
+
+When everything is done, try to login to your local server using ftp-user account.
+
+```
+#!shell
+ftp localhost
+```
 
 Amazon S3 Server
 ================
@@ -54,6 +67,7 @@ After you install the Fake-S3 server:
 1. Setup wildcard. Follow the instruction: [https://help.ubuntu.com/community/Dnsmasq](https://help.ubuntu.com/community/Dnsmasq)
 
     * add the following line into /etc/hosts
+
 ```
 !#shell
 127.0.0.1       s3.amazonaws.com
