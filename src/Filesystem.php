@@ -71,6 +71,14 @@ class Filesystem implements InjectionAwareInterface
      */
     public function getAdapter($adapterName)
     {
+        //obtains a default filesystem adapter
+        if ('default' === $adapterName) {
+            if (!isset($this->config['default'])) {
+                $adapterName = 'local';
+            } else {
+                $adapterName = $this->config['default'];
+            }
+        }
         if (!isset($this->initializedAdapter[$adapterName])) {
             //creates instance of adapter
             $adapterInstance = $this->resolveAdapterInstance($adapterName);

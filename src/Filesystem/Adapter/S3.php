@@ -80,7 +80,6 @@ class S3 extends GaufretteAwsS3 implements AdapterInterface
      *
      * @param $key
      * @param array $options
-     * @internal param bool $absolute
      * @return mixed
      */
     public function getUrl($key, array $options = array())

@@ -26,6 +26,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     private function getFilesystem() {
         $config = array(
+            'default'   =>  'local',
             'local' => array(
                 'directory' =>  dirname(__FILE__) . '/fixtures/local'
             ),
@@ -54,14 +55,17 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     {
         $filesystem = $this->getFilesystem();
 
-        $this->assertInstanceOf('\Gaufrette\Filesystem', $filesystem->local);
+        $this->assertInstanceOf('\Vegas\Filesystem\Wrapper', $filesystem->local);
         $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Local', $filesystem->local->getAdapter());
 
-        $this->assertInstanceOf('\Gaufrette\Filesystem', $filesystem->ftp);
+        $this->assertInstanceOf('\Vegas\Filesystem\Wrapper', $filesystem->default);
+        $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Local', $filesystem->default->getAdapter());
+
+        $this->assertInstanceOf('\Vegas\Filesystem\Wrapper', $filesystem->ftp);
         $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Ftp', $filesystem->ftp->getAdapter());
 
         $filesystem->s3->getAdapter()->getService()->setBaseUrl('localhost:4567');
-        $this->assertInstanceOf('\Gaufrette\Filesystem', $filesystem->s3);
+        $this->assertInstanceOf('\Vegas\Filesystem\Wrapper', $filesystem->s3);
         $this->assertInstanceOf('\Vegas\Filesystem\Adapter\S3', $filesystem->s3->getAdapter());
     }
 

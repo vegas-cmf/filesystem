@@ -58,7 +58,6 @@ class Ftp extends GaufretteFtp implements AdapterInterface
      *
      * @param $key
      * @param array $options
-     * @internal param bool $absolute
      * @return mixed
      */
     public function getUrl($key, array $options = array())
