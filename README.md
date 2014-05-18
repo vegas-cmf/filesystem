@@ -64,42 +64,44 @@ For more information check the following link: [https://github.com/jubos/fake-s3
 
 After you install the Fake-S3 server:
 
-1. Setup wildcard. Follow the instruction: [https://help.ubuntu.com/community/Dnsmasq](https://help.ubuntu.com/community/Dnsmasq)
+Setup wildcard. Follow the instruction: [https://help.ubuntu.com/community/Dnsmasq](https://help.ubuntu.com/community/Dnsmasq)
 
-    * add the following line into /etc/hosts
+Add the following line into /etc/hosts
 
 ```
 #!shell
 127.0.0.1       s3.amazonaws.com
 ```
 
-    * add the following line
+Add the following line
+
 ```
 #!shell
 address=/s3.amazonaws.com/127.0.0.1
 ```
 
-    * restart server
+Restart server
+
 ```
 #!shell
 sudo service dnsmasq restart
 ```
 
-    * ensure that subdomains of s3.amazonaws.com are pointed to localhost
+Ensure that subdomains of s3.amazonaws.com are pointed to localhost
 
 ```
 #!shell
 ping test.s3.amazonaws.com
 ```
 
-2. Prepare S3 server
+Prepare S3 server
 
 ```
 #!shell
 curl -H"Host:test.s3.amazonaws.com" -H"Content-Length:0" -H"Content-Type:application/octet-stream" -H"Date: Sat, 17 May 2014 17:10:23GMT" -H"Authorization:AWS <AWSAccessKey/>:bgdmYRMpfSeBdiItZCUdHXV/wrM=" -X PUT http://test.s3.amazonaws.com -v
 ```
 
-3. Start fake-s3 server
+Start fake-s3 server
 
 ```
 #!shell
