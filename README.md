@@ -69,14 +69,14 @@ After you install the Fake-S3 server:
     * add the following line into /etc/hosts
 
 ```
-!#shell
+#!shell
 127.0.0.1       s3.amazonaws.com
 ```
 
     * add the following line
 ```
-!#shell
-address=/s3.amazonaws.com/127.0.0.1**
+#!shell
+address=/s3.amazonaws.com/127.0.0.1
 ```
 
     * restart server
