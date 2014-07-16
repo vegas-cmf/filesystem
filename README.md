@@ -3,11 +3,11 @@ Vegas CMF Filesystem Manager
 
 
 Tests
-=====
+-----
 
 
 Ftp server
-==========
+----------
 
 Test suite for FTP adapter uses a local FTP server. In the example we show how to setup local ftp server based on **vsftpd** service, which you can easily install in your system.
 In the following steps we show how to install it in the Ubuntu system.
@@ -58,7 +58,7 @@ ftp localhost
 ```
 
 Amazon S3 Server
-================
+----------------
 Test suite for S3 adapter uses a local fake S3 server. It provides by ruby gem called **FakeS3**.
 For more information check the following link: [https://github.com/jubos/fake-s3](https://github.com/jubos/fake-s3)
 
