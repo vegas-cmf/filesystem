@@ -22,7 +22,7 @@
         "phalcon/incubator": "dev-master",
         "vegas-cmf/core" : "1.*",
         "knplabs/gaufrette": "0.1.*",
-        "aws/aws-sdk-php" : "2.6.*",
+        "aws/aws-sdk-php" : "2.*",
         "phpseclib/phpseclib": "0.3.*"
     },
     "require-dev": {
