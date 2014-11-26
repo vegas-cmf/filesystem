@@ -13,7 +13,6 @@ Test suite for FTP adapter uses a local FTP server. In the example we show how t
 In the following steps we show how to install it in the Ubuntu system.
 
 ```
-#!shell
 sudo apt-get install vsftpd
 sudo vim /etc/vsftpd.conf
 ```
@@ -21,7 +20,6 @@ sudo vim /etc/vsftpd.conf
 Find and setup the following lines:
 
 ```
-#!shell
 anonymous_enable=YES
 write_enable=YES
 local_enable=YES
@@ -31,14 +29,12 @@ ftpd_banner=Welcome to Vegas Ftp Test Server
 Restart FTP server
 
 ```
-#!shell
 sudo service vsftpd restart
 ```
 
 Now we should create an example user
 
 ```
-#!shell
 sudo groupadd ftp-users
 sudo mkdir /home/ftp-user
 sudo chmod 775 /home/ftp-user
@@ -53,7 +49,6 @@ echo "Hello Vegas" > /home/ftp-user/hello.txt
 When everything is done, try to login to your local server using ftp-user account.
 
 ```
-#!shell
 ftp localhost
 ```
 
@@ -69,49 +64,42 @@ Setup wildcard. Follow the instruction: [https://help.ubuntu.com/community/Dnsma
 Add the following line into **/etc/hosts**
 
 ```
-#!shell
 127.0.0.1       s3.amazonaws.com
 ```
 
 Add the following line into **/etc/dnsmasq.conf** file:
 
 ```
-#!shell
 address=/s3.amazonaws.com/127.0.0.1
 ```
 
 Restart server
 
 ```
-#!shell
 sudo service dnsmasq restart
 ```
 
 Ensure that subdomains of s3.amazonaws.com are pointed to localhost
 
 ```
-#!shell
 ping test.s3.amazonaws.com
 ```
 
 Prepare S3 server
 
 ```
-#!shell
-curl -H"Host:test.s3.amazonaws.com" -H"Content-Length:0" -H"Content-Type:application/octet-stream" -H"Date: Sat, 17 May 2014 17:10:23GMT" -H"Authorization:AWS <AWSAccessKey/>:bgdmYRMpfSeBdiItZCUdHXV/wrM=" -X PUT http://test.s3.amazonaws.com -v
+curl -H"Host:test.s3.amazonaws.com:4567" -H"Content-Length:0" -H"Content-Type:application/octet-stream" -H"Date: Sat, 17 May 2014 17:10:23GMT" -H"Authorization:AWS <AWSAccessKey/>:bgdmYRMpfSeBdiItZCUdHXV/wrM=" -X PUT http://test.s3.amazonaws.com:4567 -v
 ```
 
 Start fake-s3 server
 
 ```
-#!shell
-sudo fakes3 server --root=/mnt/s3.vegas.com --port=80
+sudo fakes3 server --root=/mnt/s3.vegas.com --port=4567
 ```
 
 
 Now you can run tests:
 
 ```
-#!shell
 ./vendor/bin/phpunit
 ```
