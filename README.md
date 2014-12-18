@@ -1,6 +1,10 @@
 Vegas CMF Filesystem Manager
 ============================
 
+[![Build Status](https://travis-ci.org/vegas-cmf/filesystem.png?branch=master)](https://travis-ci.org/vegas-cmf/filesystem)
+[![Coverage Status](https://coveralls.io/repos/vegas-cmf/filesystem/badge.png?branch=master)](https://coveralls.io/r/vegas-cmf/filesystem?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/vegas-cmf/filesystem/v/stable.png)](https://packagist.org/packages/vegas-cmf/filesystem)
+[![Total Downloads](https://poser.pugx.org/vegas-cmf/filesystem/downloads.png)](https://packagist.org/packages/vegas-cmf/filesystem)
 
 Tests
 -----
