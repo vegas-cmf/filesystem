@@ -9,10 +9,10 @@ services:
 
 before_install:
   - sudo apt-get install vsftpd
-  - sudo perl -p -i -e 's/anonymous_enable=NO/anonymous_enable=YES/g'
-  - sudo perl -p -i -e 's/write_enable=NO/write_enable=YES/g'
-  - sudo perl -p -i -e 's/local_enable=NO/local_enable=YES/g'
-  - sudo perl -p -i -e 's/ftpd_banner=(.*)/ftpd_banner=Welcome to Vegas Ftp Test Server/g'
+  - sudo perl -p -i -e 's/anonymous_enable=NO/anonymous_enable=YES/g' /etc/vsftpd.conf
+  - sudo perl -p -i -e 's/write_enable=NO/write_enable=YES/g' /etc/vsftpd.conf
+  - sudo perl -p -i -e 's/local_enable=NO/local_enable=YES/g' /etc/vsftpd.conf
+  - sudo perl -p -i -e 's/ftpd_banner=(.*)/ftpd_banner=Welcome to Vegas Ftp Test Server/g' /etc/vsftpd.conf
   - sudo service vsftpd start
   - sudo groupadd ftp-users
   - sudo mkdir /home/ftp-user
