@@ -33,30 +33,30 @@ class FtpTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldThrowExceptionWhenPathIsInvalid()
     {
-        $exception = null;
         try {
             \Vegas\Filesystem\Adapter\Ftp::setup([
                 'path' => false,
                 'host' => $this->config['host']
             ]);
+
+            throw new \Exception();
         } catch (\Exception $e) {
-            $exception = $e;
+            $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Exception\Ftp\InvalidPathException', $e);
         }
-        $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Exception\Ftp\InvalidPathException', $exception);
     }
 
     public function testShouldThrowExceptionWhenHostIsInvalid()
     {
-        $exception = null;
         try {
             \Vegas\Filesystem\Adapter\Ftp::setup([
                 'path' => $this->config['path'],
                 'host' => false
             ]);
+
+            throw new \Exception();
         } catch (\Exception $e) {
-            $exception = $e;
+            $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Exception\Ftp\InvalidHostException', $e);
         }
-        $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Exception\Ftp\InvalidHostException', $exception);
     }
 
     public function testShouldReturnAbsolutePathToFile()
