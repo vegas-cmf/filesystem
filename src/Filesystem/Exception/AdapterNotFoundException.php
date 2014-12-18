@@ -2,7 +2,7 @@
 /**
  * This file is part of Vegas package
  *
- * @author Slawomir Zytko <slawomir.zytko@gmail.com>
+ * @author Slawomir Zytko <slawek@amsterdam-standard.pl>
  * @copyright Amsterdam Standard Sp. Z o.o.
  * @homepage http://vegas-cmf.github.io
  *
@@ -20,11 +20,14 @@ use Vegas\Filesystem\Exception as FilesystemException;
  */
 class AdapterNotFoundException extends FilesystemException
 {
+    protected $message = 'Adapter `%s` was not found';
+
+    /**
+     * @param string $adapterName
+     */
     public function __construct($adapterName)
     {
         $this->message = sprintf($this->message, $adapterName);
     }
-
-    protected $message = 'Adapter `%s` was not found';
 }
  

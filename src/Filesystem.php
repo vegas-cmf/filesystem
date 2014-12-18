@@ -2,7 +2,7 @@
 /**
  * This file is part of Vegas package
  *
- * @author Slawomir Zytko <slawomir.zytko@gmail.com>
+ * @author Slawomir Zytko <slawek@amsterdam-standard.pl>
  * @copyright Amsterdam Standard Sp. Z o.o.
  * @homepage http://vegas-cmf.github.io
  *
@@ -12,10 +12,10 @@
 
 namespace Vegas;
 
-use Vegas\Filesystem\Wrapper as FilesystemWrapper;
 use Phalcon\DI\InjectionAwareInterface;
 use Vegas\DI\InjectionAwareTrait;
 use Vegas\Filesystem\Exception\AdapterNotFoundException;
+use Vegas\Filesystem\Wrapper as FilesystemWrapper;
 
 /**
  * Class Manager
@@ -35,14 +35,14 @@ class Filesystem implements InjectionAwareInterface
      *
      * @var array
      */
-    private $initializedAdapter = array();
+    private $initializedAdapter = [];
 
     /**
      * Filesystem configuration
      *
      * @var array
      */
-    private $config = array();
+    private $config = [];
 
     /**
      * @param array $config
@@ -56,7 +56,7 @@ class Filesystem implements InjectionAwareInterface
      * Reading the property from the filesystem manager object
      *
      * @param $name
-     * @return mixed
+     * @return FilesystemWrapper
      */
     public function __get($name)
     {
@@ -67,7 +67,7 @@ class Filesystem implements InjectionAwareInterface
      * Returns the instance of adapter by its name
      *
      * @param $adapterName
-     * @return mixed
+     * @return FilesystemWrapper
      */
     public function getAdapter($adapterName)
     {
@@ -82,7 +82,7 @@ class Filesystem implements InjectionAwareInterface
         if (!isset($this->initializedAdapter[$adapterName])) {
             //creates instance of adapter
             $adapterInstance = $this->resolveAdapterInstance($adapterName);
-            //creates filesystem using created adapter
+            //initializes filesystem wrapper using created adapter
             $filesystem = new FilesystemWrapper($adapterInstance);
             $this->initializedAdapter[$adapterName] = $filesystem;
         }
@@ -100,6 +100,10 @@ class Filesystem implements InjectionAwareInterface
     public function setAdapterConfig($adapterName, $config)
     {
         $this->config[$adapterName] = $config;
+        if (isset($this->initializedAdapter[$adapterName])) {
+            //adapter should reinitialized with new configuration
+            unset($this->initializedAdapter[$adapterName]);
+        }
         return $this;
     }
 
@@ -118,7 +122,7 @@ class Filesystem implements InjectionAwareInterface
             $adapterConfig = $this->getAdapterConfig($adapterName);
 
             $setupMethod = $reflectionClass->getMethod('setup');
-            return $setupMethod->invokeArgs(null, array($adapterConfig));
+            return $setupMethod->invokeArgs(null, [$adapterConfig]);
         } catch (\ReflectionException $ex) {
             throw new AdapterNotFoundException($adapterName);
         }
@@ -133,7 +137,7 @@ class Filesystem implements InjectionAwareInterface
     private function getAdapterConfig($adapterName)
     {
         if (!isset($this->config[$adapterName])) {
-            return array();
+            return [];
         }
 
         return $this->config[$adapterName];

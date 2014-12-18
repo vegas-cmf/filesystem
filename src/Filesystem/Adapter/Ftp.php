@@ -2,7 +2,7 @@
 /**
  * This file is part of Vegas package
  *
- * @author Slawomir Zytko <slawomir.zytko@gmail.com>
+ * @author Slawomir Zytko <slawek@amsterdam-standard.pl>
  * @copyright Amsterdam Standard Sp. Z o.o.
  * @homepage http://vegas-cmf.github.io
  *
@@ -12,11 +12,11 @@
 
 namespace Vegas\Filesystem\Adapter;
 
+use Gaufrette\Adapter\Ftp as GaufretteFtp;
 use Gaufrette\Util\Path;
 use Vegas\Filesystem\Adapter\Exception\Ftp\InvalidHostException;
 use Vegas\Filesystem\Adapter\Exception\Ftp\InvalidPathException;
 use Vegas\Filesystem\AdapterInterface;
-use Gaufrette\Adapter\Ftp as GaufretteFtp;
 
 /**
  * Class Ftp
@@ -38,13 +38,13 @@ class Ftp extends GaufretteFtp implements AdapterInterface
      */
     public static function setup($config)
     {
-        if (!isset($config['path'])) {
-            throw new InvalidPathException();
-        }
-        if (!isset($config['host'])) {
+        if (!isset($config['host']) || empty($config['host'])) {
             throw new InvalidHostException();
         }
-        $config['options'] = !isset($config['options']) ? array() : $config['options'];
+        if (!isset($config['path']) || empty($config['path'])) {
+            throw new InvalidPathException();
+        }
+        $config['options'] = !isset($config['options']) ? [] : $config['options'];
 
         $ftpClient = new self($config['path'], $config['host'], $config['options']);
 
@@ -60,28 +60,28 @@ class Ftp extends GaufretteFtp implements AdapterInterface
      * @param array $options
      * @return mixed
      */
-    public function getUrl($key, array $options = array())
+    public function getUrl($key, array $options = [])
     {
         $absolutePathPattern = ':protocol://:username@:host:pwd/:directory/:file';
 
         $protocol = $this->ssl ? 'ftps' : 'ftp';
         $pwd = ftp_pwd($this->connection);
-        $url = strtr($absolutePathPattern, array(
+        $url = strtr($absolutePathPattern, [
             ':protocol' =>  $protocol,
             ':username' =>  $this->username,
             ':host' =>  $this->host,
             ':pwd'  =>  $pwd,
             ':directory'    =>  $this->directory,
             ':file' =>  $key
-        ));
+        ]);
 
         if (isset($options['relative']) && $options['relative']) {
             $relativePathPattern = ':pwd/:directory/:file';
-            $url = strtr($relativePathPattern, array(
+            $url = strtr($relativePathPattern, [
                 ':pwd'   =>  $pwd,
                 ':directory'    =>  $this->directory,
                 ':file' =>  $key
-            ));
+            ]);
         }
 
         return Path::normalize($url);

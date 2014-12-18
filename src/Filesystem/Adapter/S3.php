@@ -2,7 +2,7 @@
 /**
  * This file is part of Vegas package
  *
- * @author Slawomir Zytko <slawomir.zytko@gmail.com>
+ * @author Slawomir Zytko <slawek@amsterdam-standard.pl>
  * @copyright Amsterdam Standard Sp. Z o.o.
  * @homepage http://vegas-cmf.github.io
  *
@@ -39,21 +39,21 @@ class S3 extends GaufretteAwsS3 implements AdapterInterface
      */
     public static function setup($config)
     {
-        if (!isset($config['key'])) {
+        if (!isset($config['key']) || empty($config['key'])) {
             throw new InvalidCredentialsException();
         }
-        if (!isset($config['secret'])) {
+        if (!isset($config['secret']) || empty($config['secret'])) {
             throw new InvalidCredentialsException();
         }
 
         //instantiate Amazon AWS S3 client
-        $service = S3Client::factory(array(
+        $service = S3Client::factory([
             'key' => $config['key'],
             'secret' => $config['secret'],
             'scheme'    =>  !isset($config['scheme']) ? 'https' : 'http'
-        ));
+        ]);
 
-        if (!isset($config['bucket'])) {
+        if (!isset($config['bucket']) || empty($config['bucket'])) {
             throw new InvalidBucketException();
         }
         $client = new self($service, $config['bucket']);
@@ -82,13 +82,12 @@ class S3 extends GaufretteAwsS3 implements AdapterInterface
      * @param array $options
      * @return mixed
      */
-    public function getUrl($key, array $options = array())
+    public function getUrl($key, array $options = [])
     {
         $url = parent::getUrl($key, $options);
 
         if (isset($options['relative']) && $options['relative']) {
-            $parsedUrl = parse_url($url);
-            $url = $parsedUrl['path'];
+            $url = parse_url($url, PHP_URL_PATH);
         }
 
         return $url;
