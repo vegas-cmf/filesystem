@@ -2,7 +2,7 @@
 /**
  * This file is part of Vegas package
  *
- * @author Slawomir Zytko <slawomir.zytko@gmail.com>
+ * @author Slawomir Zytko <slawek@amsterdam-standard.pl>
  * @copyright Amsterdam Standard Sp. Z o.o.
  * @homepage http://vegas-cmf.github.io
  *
@@ -14,6 +14,10 @@ namespace Vegas\Filesystem;
 
 use Gaufrette\Filesystem as GaufretteFilesystem;
 
+/**
+ * Class Wrapper
+ * @package Vegas\Filesystem
+ */
 class Wrapper extends GaufretteFilesystem
 {
     /**
@@ -30,7 +34,7 @@ class Wrapper extends GaufretteFilesystem
      * @param array $options
      * @return mixed
      */
-    public function getUrl($key, array $options = array())
+    public function getUrl($key, array $options = [])
     {
         return $this->adapter->getUrl($key, $options);
     }

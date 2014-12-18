@@ -1,0 +1,36 @@
+language: php
+
+php:
+  - 5.4
+
+services:
+  - mongodb
+  - memcached
+
+before_install:
+  - sudo apt-get install vsftpd
+  - sudo perl -p -i -e 's/anonymous_enable=NO/anonymous_enable=YES/g' /etc/vsftpd.conf
+  - sudo perl -p -i -e 's/write_enable=NO/write_enable=YES/g' /etc/vsftpd.conf
+  - sudo perl -p -i -e 's/local_enable=NO/local_enable=YES/g' /etc/vsftpd.conf
+  - sudo perl -p -i -e 's/ftpd_banner=(.*)/ftpd_banner=Welcome to Vegas Ftp Test Server/g' /etc/vsftpd.conf
+  - sudo service vsftpd start
+  - sudo groupadd ftp-users
+  - sudo mkdir /home/ftp-user
+  - sudo chmod 775 /home/ftp-user
+  - sudo chown ftp-user:ftp-users /home/ftp-user
+  - touch /home/ftp-user/hello.txt
+  - pass=$(perl -e 'print crypt($ARGV[0], "password")' 'test1234')
+  - sudo useradd -g ftp-users -d /home/ftp-user -p $pass ftp-user
+
+before_script:
+  - phpenv config-add travis/php.ini
+  - git clone -q --depth=1 https://github.com/phalcon/cphalcon.git -b master
+  - (cd cphalcon/ext; export CFLAGS="-g3 -O1 -fno-delete-null-pointer-checks -Wall"; phpize && ./configure --enable-phalcon && make -j4 && sudo make install && phpenv config-add ../unit-tests/ci/phalcon.ini)
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev
+
+script:
+  - php vendor/bin/phpunit -c travis/phpunit.xml.dist
+
+after_script:
+  - php vendor/bin/coveralls -v

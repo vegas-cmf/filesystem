@@ -2,7 +2,7 @@
 /**
  * This file is part of Vegas package
  *
- * @author Slawomir Zytko <slawomir.zytko@gmail.com>
+ * @author Slawomir Zytko <slawek@amsterdam-standard.pl>
  * @copyright Amsterdam Standard Sp. Z o.o.
  * @homepage http://vegas-cmf.github.io
  *
@@ -12,9 +12,9 @@
 
 namespace Vegas\Filesystem\Adapter;
 
+use Gaufrette\Adapter\Local as GaufretteLocal;
 use Vegas\Filesystem\Adapter\Exception\Local\InvalidDirectoryException;
 use Vegas\Filesystem\AdapterInterface;
-use Gaufrette\Adapter\Local as GaufretteLocal;
 
 /**
  * Class Local
@@ -27,7 +27,6 @@ class Local extends GaufretteLocal implements AdapterInterface
 
     /**
      * Prepares adapter instance
-     *
      * @param array $config
      * @throws Exception\Local\InvalidDirectoryException
      * @return AdapterInterface
@@ -51,11 +50,11 @@ class Local extends GaufretteLocal implements AdapterInterface
      * @param array $options
      * @return mixed
      */
-    public function getUrl($key, array $options = array())
+    public function getUrl($key, array $options = [])
     {
         $url = $this->computePath($key);
 
-        if (isset($options['relative']) && $options['relative']) {
+        if (isset($options['relative']) && $options['relative'] && isset($_SERVER['DOCUMENT_ROOT'])) {
             $url = str_replace($_SERVER['DOCUMENT_ROOT'], '', $url);
         }
 
