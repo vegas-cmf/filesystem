@@ -9,18 +9,19 @@ services:
 
 before_install:
   - sudo apt-get install vsftpd
-  - sudo perl -p -i -e 's/anonymous_enable=NO/anonymous_enable=YES/g' /etc/vsftpd.conf
-  - sudo perl -p -i -e 's/write_enable=NO/write_enable=YES/g' /etc/vsftpd.conf
-  - sudo perl -p -i -e 's/local_enable=NO/local_enable=YES/g' /etc/vsftpd.conf
-  - sudo perl -p -i -e 's/ftpd_banner=(.*)/ftpd_banner=Welcome to Vegas Ftp Test Server/g' /etc/vsftpd.conf
-  - sudo service vsftpd start
+  - sudo sed -i '/anonymous_enable/c\anonymous_enable=YES' /etc/vsftpd.conf
+  - sudo sed -i '/write_enable/c\write_enable=YES' /etc/vsftpd.conf
+  - sudo sed -i '/local_enable/c\local_enable=YES' /etc/vsftpd.conf
+  - sudo sed -i '/ftpd_banner/c\ftpd_banner=Welcome to Vegas Ftp Test Server' /etc/vsftpd.conf
+  - sudo service vsftpd restart
   - sudo groupadd ftp-users
   - sudo mkdir /home/ftp-user
-  - sudo chmod 775 /home/ftp-user
+  - sudo chmod 777 /home/ftp-user
+  - sudo useradd -g ftp-users -d /home/ftp-user ftp-user
+  - echo -e "test1234\ntest1234" | sudo passwd ftp-user
   - sudo chown ftp-user:ftp-users /home/ftp-user
-  - touch /home/ftp-user/hello.txt
-  - pass=$(perl -e 'print crypt($ARGV[0], "password")' 'test1234')
-  - sudo useradd -g ftp-users -d /home/ftp-user -p $pass ftp-user
+  - sudo touch /home/ftp-user/hello.txt
+  - sudo sh -c 'echo "Hello Vegas" > /home/ftp-user/hello.txt'
 
 before_script:
   - phpenv config-add travis/php.ini
