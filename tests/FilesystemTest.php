@@ -80,21 +80,21 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     {
         $filesystem = $this->getFilesystem();
 
-        $exception = null;
         try {
             $filesystem->getAdapter('fake');
-        } catch (\Exception $e) {
-            $exception = $e;
-        }
-        $this->assertInstanceOf('\Vegas\Filesystem\Exception\AdapterNotFoundException', $exception);
 
-        $exception = null;
+            throw new \Exception();
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('\Vegas\Filesystem\Exception\AdapterNotFoundException', $e);
+        }
+
         try {
             $filesystem->fake;
+
+            throw new \Exception();
         } catch (\Exception $e) {
-            $exception = $e;
+            $this->assertInstanceOf('\Vegas\Filesystem\Exception\AdapterNotFoundException', $e);
         }
-        $this->assertInstanceOf('\Vegas\Filesystem\Exception\AdapterNotFoundException', $exception);
     }
 
     public function testShouldChangeAdapterConfiguration()
@@ -122,29 +122,29 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     {
         $filesystem = new Filesystem([]);
 
-        $exception = null;
         try {
             $filesystem->local;
-        } catch (\Exception $e) {
-            $exception = $e;
-        }
-        $this->assertInstanceOf('\Vegas\Filesystem\Exception', $exception);
 
-        $exception = null;
+            throw new \Exception();
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('\Vegas\Filesystem\Exception', $e);
+        }
+
         try {
             $filesystem->s3;
-        } catch (\Exception $e) {
-            $exception = $e;
-        }
-        $this->assertInstanceOf('\Vegas\Filesystem\Exception', $exception);
 
-        $exception = null;
+            throw new \Exception();
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('\Vegas\Filesystem\Exception', $e);
+        }
+
         try {
             $filesystem->ftp;
+
+            throw new \Exception();
         } catch (\Exception $e) {
-            $exception = $e;
+            $this->assertInstanceOf('\Vegas\Filesystem\Exception', $e);
         }
-        $this->assertInstanceOf('\Vegas\Filesystem\Exception', $exception);
     }
 
     /**

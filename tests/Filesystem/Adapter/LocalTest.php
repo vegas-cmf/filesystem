@@ -25,15 +25,15 @@ class LocalTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldThrowExceptionWhenDirectoryIsInvalid()
     {
-        $exception = null;
         try {
             \Vegas\Filesystem\Adapter\Local::setup([
                 'directory' => null
             ]);
+
+            throw new \Exception();
         } catch (\Exception $e) {
-            $exception = $e;
+            $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Exception\Local\InvalidDirectoryException', $e);
         }
-        $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Exception\Local\InvalidDirectoryException', $exception);
     }
 
     public function testShouldReturnAbsolutePathToFile()

@@ -34,44 +34,44 @@ class S3Test extends \PHPUnit_Framework_TestCase
 
     public function testShouldThrowExceptionWhenKeyIsInvalid()
     {
-        $exception = null;
         try {
             \Vegas\Filesystem\Adapter\S3::setup([
                 'key' => false,
                 'secret' => $this->config['secret']
             ]);
+
+            throw new \Exception();
         } catch (\Exception $e) {
-            $exception = $e;
+            $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Exception\S3\InvalidCredentialsException', $e);
         }
-        $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Exception\S3\InvalidCredentialsException', $exception);
     }
 
     public function testShouldThrowExceptionWhenSecretIsInvalid()
     {
-        $exception = null;
         try {
             \Vegas\Filesystem\Adapter\S3::setup([
                 'key' => $this->config['key'],
                 'secret' => false
             ]);
+
+            throw new \Exception();
         } catch (\Exception $e) {
-            $exception = $e;
+            $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Exception\S3\InvalidCredentialsException', $e);
         }
-        $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Exception\S3\InvalidCredentialsException', $exception);
     }
 
     public function testShouldThrowExceptionWhenBucketIsInvalid()
     {
-        $exception = null;
         try {
             \Vegas\Filesystem\Adapter\S3::setup([
                 'key' => $this->config['key'],
                 'secret' => $this->config['bucket']
             ]);
+
+            throw new \Exception();
         } catch (\Exception $e) {
-            $exception = $e;
+            $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Exception\S3\InvalidBucketException', $e);
         }
-        $this->assertInstanceOf('\Vegas\Filesystem\Adapter\Exception\S3\InvalidBucketException', $exception);
     }
 
     protected function mockS3Client($filePath)
