@@ -1,6 +1,5 @@
 {
     "name": "vegas-cmf/filesystem",
-    "version" : "1.0.1",
     "type": "library",
     "description": "Vegas CMF Filesystem Manager",
     "license": "MIT",
