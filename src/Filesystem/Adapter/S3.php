@@ -50,7 +50,7 @@ class S3 extends GaufretteAwsS3 implements AdapterInterface
         $service = S3Client::factory([
             'key' => $config['key'],
             'secret' => $config['secret'],
-            'scheme'    =>  !isset($config['scheme']) ? 'https' : 'http'
+            'scheme'    =>  !isset($config['scheme']) ? 'https' : $config['scheme']
         ]);
 
         if (!isset($config['bucket']) || empty($config['bucket'])) {
